@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Single Dimensional Kalman Filter by akshaychawla</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Single Dimensional Kalman Filter</h1>
+      <h2 class="project-tagline">The Aim of this project was to understand the basics of the Kalman Filter. The system consists of a truck moving with a constant velocity and receiving noisy GPS measurements. A kalman filter estimates the current state. </h2>
+      <a href="https://github.com/akshaychawla/1D-Kalman-Filter" class="btn">View on GitHub</a>
+      <a href="https://github.com/akshaychawla/1D-Kalman-Filter/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/akshaychawla/1D-Kalman-Filter/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="1d-kalman-filter" class="anchor" href="#1d-kalman-filter" aria-hidden="true"><span class="octicon octicon-link"></span></a>1D-Kalman-Filter</h1>
+
+<hr>
+
+<ul>
+<li>[ + ] Add the basics of Kalman Filter</li>
+<li>[   ] Simplify it!</li>
+</ul>
+
+<h2>
+<a id="1-introduction" class="anchor" href="#1-introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Introduction</h2>
+
+<p>This is a simple 1 dimensional Kalman Filter. The Aim of this project was to understand the basics of the Kalman Filter so I could move on to the Extended Kalman Filter. 
+In the case of a well-defined model, one-dimensional linear system with measurements errors drawn from a zero-mean gaussian distribution the Kalman Filter has been shown to be the best estimator. A detailed explanation of the same is given in the rest of the readme. </p>
+
+<h2>
+<a id="2-problem-statement" class="anchor" href="#2-problem-statement" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Problem Statement</h2>
+
+<p>To understand the working of the Kalman Filter, an example of a linear system was taken; A vehicle is moving on a stright road with a constant velocity (2m/s). It also has a GPS on board that gives it noisy readings. We are given an estimate of its initial position (we assume one, if it isnt given) and at EVERY time step (epoch) we try to obtain the best estimate of its position by fusing together GPS readings and costant velocity model. </p>
+
+<h2>
+<a id="3-system-model" class="anchor" href="#3-system-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. System Model</h2>
+
+<p>For a Kalman filter based state estimator, the system must conform to a certain model. So if your system model conforms to model mentiones herein, then we can use a Kalman Filter to estimate the state of the system. </p>
+
+<p>3.1 Motion Model</p>
+
+<pre><code>  x_new = A*x_old + B*u + w
+  x_new : current state
+  x_old : previous state
+  A     : state transition matrix
+  B     : control input matrix
+  w     : process noise (from a 0 mean normal distribution with covariance Q)
+</code></pre>
+
+<p>3.2 Sensor Model</p>
+
+<pre><code>  z = H*x + v
+  z     : sensor measurement
+  H     : sensor transformation matrix
+  x     : current state 
+  v     : measurement noise (from a 0 mean normal distribution with covariance R)
+</code></pre>
+
+<p>3.3 Understanding the models</p>
+
+<ul>
+<li>The state vector 'x' contains the state of the system i.e the parameters that uniquely describe the current position of the system. In this case, the state vector is a single dimentional vector containing the location of the vehicle. It can also be a N dimensional vector containg position in different axes, velocity in different axes, temperature, state of sensors etc.</li>
+<li>A is the state transition matrix, it applies the effect of each parameter of the previous state on the next state. </li>
+<li>
+<p>B is the control input matrix that applies the effect of the control signal given to the system onto the next state. So in this system, the current position is based on the previous position added to the velocity*time. Mathematically, </p>
+
+<pre><code>    x_new = 1*x_old + timedifference*velocity 
+</code></pre>
+</li>
+<li><p>In the equation given above, A = 1 and B = time difference. </p></li>
+<li>
+<p>No system is perfect, given the previous position and the velocty, the new location will not correspond to the equation given above. There will be noise in the system, this noise is modelled as a Gaussian distribution having mean = 0 and a certain standard deviation given by covariance matrix Q (explained later). In simple words, it is the difference between the the ideal new location and the actual new location. </p>
+
+<pre><code>    x_new - (A*x_old + B*u) = noise = w
+</code></pre>
+</li>
+<li><p>The 'z' vector contains the sensor measurements given by the sensors. The Kalman filter is based on a Hidden Markov Model, meaning that the current 'z' depends ONLY on current state, and not any of the previous states as is evident in the sensor model equation. </p></li>
+<li>The 'H' matrix maps the state vector parameters 'x' to the sensor measurements. In simple words, it tells us the sensor measurement that we <em>should</em> get given the current state 'x'. </li>
+<li>Similiar to 'w', 'v' is also a parameter representing the noise in sensor measurements. It is also taken from a 0 mean Gaussian distribution whose variance is taken from covariance matrix R.<br>
+</li>
+</ul>
+
+<h2>
+<a id="4-kalman-filter-equations" class="anchor" href="#4-kalman-filter-equations" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Kalman Filter Equations</h2>
+
+<p>4.1 Prediction Step</p>
+
+<p>4.2 Correction Step </p>
+
+<h2>
+<a id="5-output" class="anchor" href="#5-output" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. Output</h2>
+
+<p><img src="https://cloud.githubusercontent.com/assets/8658591/9150817/5aba58dc-3e09-11e5-8afc-53cb8093559a.jpg" alt="output"></p>
+
+<p><img class="emoji" title=":email:" alt=":email:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2709.png" height="20" width="20" align="absmiddle"> <a href="mailto:chawla.akshay1234@gmail.com">chawla.akshay1234@gmail.com</a></p>
+
+<p>Coffee! <img class="emoji" title=":coffee:" alt=":coffee:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2615.png" height="20" width="20" align="absmiddle"></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/akshaychawla/1D-Kalman-Filter">Single Dimensional Kalman Filter</a> is maintained by <a href="https://github.com/akshaychawla">akshaychawla</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
