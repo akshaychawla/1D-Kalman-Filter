@@ -31,6 +31,23 @@ For a Kalman filter based state estimator, the system must conform to a certain 
       x     : current state 
       v     : measurement noise (from a 0 mean normal distribution with covariance R)
 
+3.3 Understanding the models
+      
+- The state vector 'x' contains the state of the system i.e the parameters that uniquely describe the current position of the system. In this case, the state vector is a single dimentional vector containing the location of the vehicle. It can also be a N dimensional vector containg position in different axes, velocity in different axes, temperature, state of sensors etc.
+- A is the state transition matrix, it applies the effect of each parameter of the previous state on the next state. 
+- B is the control input matrix that applies the effect of the control signal given to the system onto the next state. So in this system, the current position is based on the previous position added to the velocity*time. Mathematically, 
+
+            x_new = 1*x_old + timedifference*velocity 
+
+- In the equation given above, A = 1 and B = time difference. 
+- No system is perfect, given the previous position and the velocty, the new location will not correspond to the equation given above. There will be noise in the system, this noise is modelled as a Gaussian distribution having mean = 0 and a certain standard deviation given by covariance matrix Q (explained later). In simple words, it is the difference between the the ideal new location and the actual new location. 
+
+            x_new - (A*x_old + B*u) = noise = w
+
+- The 'z' vector contains the sensor measurements given by the sensors. The Kalman filter is based on a Hidden Markov Model, meaning that the current 'z' depends ONLY on current state, and not any of the previous states as is evident in the sensor model equation. 
+- The 'H' matrix maps the state vector parameters 'x' to the sensor measurements. In simple words, it tells us the sensor measurement that we _should_ get given the current state 'x'. 
+- Similiar to 'w', 'v' is also a parameter representing the noise in sensor measurements. It is also taken from a 0 mean Gaussian distribution whose variance is taken from covariance matrix R.  
+
 ## 4. Kalman Filter Equations 
       
 4.1 Prediction Step
