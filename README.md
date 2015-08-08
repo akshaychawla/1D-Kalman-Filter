@@ -39,6 +39,6 @@ For a Kalman filter based state estimator, the system must conform to a certain 
 
 ## 5. Output
 
-https://cloud.githubusercontent.com/assets/8658591/9150817/5aba58dc-3e09-11e5-8afc-53cb8093559a.jpg
+![output](https://cloud.githubusercontent.com/assets/8658591/9150817/5aba58dc-3e09-11e5-8afc-53cb8093559a.jpg)
 
       
