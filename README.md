@@ -51,7 +51,17 @@ For a Kalman filter based state estimator, the system must conform to a certain 
 ## 4. Kalman Filter Equations 
       
 4.1 Prediction Step
+
+      x = F*x + B*u
+      P = F*P*F' + Q
+      P     : state covariance matrix
+      Q     : process noise covariance matrix (explained previously)
       
+- Apart from P and Q the other variables have been explained previously. 
+- The 'Q' is the process noise covariance matrix. The diagonal elements contain the variance(std_dev*std_dev) of each respective variable in the state vector 'x'. So if the state vector has 2 columns containin the x and y co-ordinates, then Q is a 2x2 matrix whose diagonals contain the variance of each of those variables. The non-diagonal variables are usually set to 0 except in the case of special circumstances. The variances are calculated from the noise variable 'w', the variance of these values is noted while observing the system. 
+- 'P' is the state covariance matrix, like 'Q', it models uncertainity in the system. It models uncertainity of the state vector 'x'. Each of the diagonal elements containg the variance (uncertainity in position) of each of those respective state variables in the state vector. For initialization for this matrix, if the state variable's initial location is known to a high degree, the corresponding diagonal element in P is a small. Vice-versa in case the state variable's initial location is not known well. 
+- In the prediction step, if we look at the second equation we see that the value of P is increasing (due to the addition), this goes to show that in the prediction step, when we do not have any measurement and we only have control command 'u', the next state will be known with lesser certainity. The opposite happens in the Correction step. 
+
 4.2 Correction Step 
 
 ## 5. Output
