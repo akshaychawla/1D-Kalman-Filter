@@ -12,7 +12,7 @@ In the case of a well-defined model, one-dimensional linear system with measurem
 To understand the working of the Kalman Filter, an example of a linear system was taken; A vehicle is moving on a stright road with a constant velocity (2m/s). It also has a GPS on board that gives it noisy readings. We are given an estimate of its initial position (we assume one, if it isnt given) and at EVERY time step (epoch) we try to obtain the best estimate of its position by fusing together GPS readings and costant velocity model. 
 
 ## 3. System Model
-For a Kalman filter based state estimator, the system must conform to a certain model. So if your system model conforms to model mentiones herein, then we can use a Kalman Filter to estimate the state of the system. 
+For a Kalman filter based state estimator, the system must conform to a certain model. So if your system model conforms to model mentioned herein, then we can use a Kalman Filter to estimate the state of the system. 
 
 3.1 Motion Model
 
