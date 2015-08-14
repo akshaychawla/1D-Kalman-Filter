@@ -1,7 +1,8 @@
 # 1D-Kalman-Filter
 
 - [ + ] Add the basics of Kalman Filter
-- [   ] Simplify it!
+- [ + ] Add everything you know!
+- [ - ] Then simplify it.
 
 ## 1. Introduction
 
