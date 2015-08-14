@@ -11,6 +11,9 @@ In the case of a well-defined model, one-dimensional linear system with measurem
 ## 2. Problem Statement
 To understand the working of the Kalman Filter, an example of a linear system was taken; A vehicle is moving on a stright road with a constant velocity (2m/s). It also has a GPS on board that gives it noisy readings. We are given an estimate of its initial position (we assume one, if it isnt given) and at EVERY time step (epoch) we try to obtain the best estimate of its position by fusing together GPS readings and costant velocity model. 
 
+![screenshot from 2015-08-14 13 59 53](https://cloud.githubusercontent.com/assets/8658591/9272991/78b33700-42a5-11e5-8885-5daa540431f7.png)
+      Fig1. The truck moves on a straight path, measuring its location with respect to a pole on the left side. It moves with a constant velocity.
+
 ## 3. System Model
 For a Kalman filter based state estimator, the system must conform to a certain model. So if your system model conforms to model mentioned herein, then we can use a Kalman Filter to estimate the state of the system. 
 
@@ -49,8 +52,18 @@ For a Kalman filter based state estimator, the system must conform to a certain 
 - Similiar to 'w', 'v' is also a parameter representing the noise in sensor measurements. It is also taken from a 0 mean Gaussian distribution whose variance is taken from covariance matrix R.  
 
 ## 4. Kalman Filter Equations 
+
+4.1 Initializaton
+
+We assume that we have a good knowledge of the vehicle's initial position. We can represent this by a gaussian whose mean is the inital known position and a covariance matrix having small values. This is shown in the image below.
+
+![screenshot from 2015-08-14 13 59 58](https://cloud.githubusercontent.com/assets/8658591/9273000/844816b2-42a5-11e5-8593-88defd73e9db.png)
       
-4.1 Prediction Step
+4.2 Prediction Step
+
+The truck moves forward with a constant velocity 'u'. We can now have a prediction of the next state from the prediction equations. This prediction is represented by a gaussian having a mean and a variance. As we can see this variance is more than the previous variance, thus showing that we are more uncertain about its position. 
+
+![screenshot from 2015-08-14 14 00 04](https://cloud.githubusercontent.com/assets/8658591/9273007/9d6f2e82-42a5-11e5-972c-0efd90e7e8cf.png)
 
       x = F*x + B*u
       P = F*P*F' + Q
@@ -62,7 +75,7 @@ For a Kalman filter based state estimator, the system must conform to a certain 
 - 'P' is the state covariance matrix, like 'Q', it models uncertainity in the system. It models uncertainity of the state vector 'x'. Each of the diagonal elements containg the variance (uncertainity in position) of each of those respective state variables in the state vector. For initialization for this matrix, if the state variable's initial location is known to a high degree, the corresponding diagonal element in P is a small. Vice-versa in case the state variable's initial location is not known well. 
 - In the prediction step, if we look at the second equation we see that the value of P is increasing (due to the addition), this goes to show that in the prediction step, when we do not have any measurement and we only have control command 'u', the next state will be known with lesser certainity. The opposite happens in the Correction step. 
 
-4.2 Correction Step 
+4.3 Correction Step 
 
 ## 5. Output
 
